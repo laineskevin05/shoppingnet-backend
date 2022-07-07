@@ -3,65 +3,119 @@ const {
   GraphQLID,
   GraphQLString,
   GraphQLList,
+  GraphQLBoolean,
 } = require("graphql");
-const { Post, Comment, User } = require("../models");
+
+const { User } = require("../models");
 
 const UserType = new GraphQLObjectType({
   name: "User",
   description: "User type",
   fields: () => ({
     id: { type: GraphQLID },
-    username: { type: GraphQLString },
+    tipoUsuario: { type: GraphQLString },
+    nombre: { type: GraphQLString },
+    apellido: { type: GraphQLString },
     email: { type: GraphQLString },
-    displayName: { type: GraphQLString },
+    telefono: { type: GraphQLString },
+    direccion: { type: GraphQLString },
+    tipoNegocio: { type: GraphQLString },
+    descripcion: { type: GraphQLString },
   }),
 });
 
-const PostType = new GraphQLObjectType({
-  name: "Post",
-  description: "Post Type",
+/**tipoUsuario: {
+      type: String,
+      required: true,
+    },
+    //nombre es obligatorio para los tres tipos de usuario
+    //nombre tambien se refiere al nombre de la empresa
+    nombre: {
+      type: String,
+      required: true,
+    },
+    Apellido: {
+      type: String,
+      required: false,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Provide a valid email",
+      ],
+    },
+    password: {
+      type: String,
+      required: true,
+      select: false,
+    },
+    telefono: {
+      type: String,
+      required: false,
+    },
+    direccion: {
+      type: String,
+      required: false,
+    },
+    //solo para el usuario empresa
+    tipoNegocio: {
+      type: String,
+      required: false,
+    },
+    //solo para el usuario empresa
+    descripcion: {
+      type: String,
+      required: false,
+    }, */
+const BloqueHtmlType = new GraphQLObjectType({
+  name: "BloqueHtml",
+  description: "BloquesHtml type",
   fields: () => ({
     id: { type: GraphQLID },
-    title: { type: GraphQLString },
-    body: { type: GraphQLString },
-    author: {
+    autor: {
       type: UserType,
-      resolve(parent) {
-        return User.findById(parent.authorId);
-      },
+      resolve: (bloqueHtml) => User.findById(bloqueHtml.autorId),
     },
-    comments: {
-      type: new GraphQLList(CommentType),
-      resolve(parent) {
-        return Comment.find({ postId: parent.id });
-      },
-    },
+    titulo: { type: GraphQLString },
+    html: { type: GraphQLString },
   }),
 });
 
-const CommentType = new GraphQLObjectType({
-  name: "Comment",
-  description: "comments type",
+const PlantillaHtmlType = new GraphQLObjectType({
+  name: "PlantillaHtml",
+  description: "PlantillaHtml type",
   fields: () => ({
     id: { type: GraphQLID },
-    comment: { type: GraphQLString },
-    user: {
+    autor: {
       type: UserType,
-      resolve(parent) {
-        return User.findById(parent.userId);
-      },
+      resolve: (plantillaHtml) => User.findById(plantillaHtml.autorId),
     },
-    post: {
-      type: PostType,
-      resolve(parent) {
-        return Post.findById(parent.postId);
-      },
+    descripcion: { type: GraphQLString },
+    listaHTML: { type: new GraphQLList(GraphQLString) },
+  }),
+});
+
+const UserPagesType = new GraphQLObjectType({
+  name: "UserPages",
+  description: "UserPages type",
+  fields: () => ({
+    id: { type: GraphQLID },
+    autor: {
+      type: UserType,
+      resolve: (userPages) => User.findById(userPages.user),
     },
+    nombre: { type: GraphQLString },
+    listHtml: { type: new GraphQLList(GraphQLString) },
+    mostrarNavbar: { type: GraphQLBoolean },
   }),
 });
 
 module.exports = {
   UserType,
-  PostType,
-  CommentType,
+  BloqueHtmlType,
+  PlantillaHtmlType,
+  UserPagesType,
 };

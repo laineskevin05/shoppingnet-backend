@@ -2,14 +2,20 @@ const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema(
   {
-    username: {
+    //tipos: administrador, empresa, cliente
+    tipoUsuario: {
       type: String,
       required: true,
     },
-    password: {
+    //nombre es obligatorio para los tres tipos de usuario
+    //nombre tambien se refiere al nombre de la empresa
+    nombre: {
       type: String,
       required: true,
-      select: false,
+    },
+    apellido: {
+      type: String,
+      required: false,
     },
     email: {
       type: String,
@@ -20,9 +26,28 @@ const userSchema = new Schema(
         "Provide a valid email",
       ],
     },
-    displayName: {
+    password: {
       type: String,
       required: true,
+      select: false,
+    },
+    telefono: {
+      type: String,
+      required: false,
+    },
+    direccion: {
+      type: String,
+      required: false,
+    },
+    //solo para el usuario empresa
+    tipoNegocio: {
+      type: String,
+      required: false,
+    },
+    //solo para el usuario empresa
+    descripcion: {
+      type: String,
+      required: false,
     },
   },
   {

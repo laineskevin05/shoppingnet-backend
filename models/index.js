@@ -1,5 +1,6 @@
 module.exports = {
   User: require("./User"),
-  Post: require("./Post"),
-  Comment: require("./Comment"),
+  UserPages: require("./UserPages"),
+  BloquesHTML: require("./BloquesHTML"),
+  PlantillasHTML: require("./PlantillasHTML"),
 };
