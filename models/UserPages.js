@@ -19,6 +19,10 @@ const userPagesSchema = new Schema(
       type: Boolean,
       required: true,
     },
+    detalle: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

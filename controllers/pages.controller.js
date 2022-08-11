@@ -43,7 +43,27 @@ const actualizarPagina = async (req, res = response) => {
   }
 };
 
+const getPaginas = async (req, res = response) => {
+  const id = req.params.id;
+  console.log(id, "aaaa");
+  try {
+    const pages = await Pages.find({ user: id });
+
+    return res.status(200).json({
+      ok: true,
+      pages: pages,
+    });
+  } catch {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: "No se pudo cargar las paginas",
+    });
+  }
+};
+
 module.exports = {
   crearPagina,
   actualizarPagina,
+  getPaginas,
 };
