@@ -112,8 +112,26 @@ const revalidarToken = async (req, res = response) => {
   });
 };
 
+const getUsuarios = async (req, res = response) => {
+  try {
+    const usuarios = await Usuario.find();
+    usuarios.forEach((user) => (user.password = undefined));
+
+    return res.status(201).json({
+      ok: true,
+      usuarios: usuarios,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Error obteniendo usuarios",
+    });
+  }
+};
+
 module.exports = {
   crearUsuario,
   loginUsuario,
   revalidarToken,
+  getUsuarios,
 };

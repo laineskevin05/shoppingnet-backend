@@ -13,6 +13,6 @@ router.post("/page/new", validarJWT, crearPagina);
 
 router.post("/page/update/", validarJWT, actualizarPagina);
 
-router.get("/page/:id", validarJWT, getPaginas);
+router.get("/page/:id", getPaginas);
 
 module.exports = router;

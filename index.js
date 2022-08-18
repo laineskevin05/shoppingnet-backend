@@ -21,9 +21,13 @@ app.use(express.json());
 // Rutas
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/companies", require("./routes/companies"));
-app.use("/api/productos", require("./routes/productos"))
+app.use("/api/productos", require("./routes/productos"));
+app.use("/api/admin", require("./routes/administrador"));
 
 // Escuchar peticiones
-app.listen(process.env.PORT, () => {
-  console.log(`Servidor corriendo en puerto ${process.env.PORT}`);
+app.listen(process.env.PORT || 3500, () => {
+  console.log(
+    `Servidor corriendo en puerto ${process.env.PORT}`,
+    app.settings.env
+  );
 });
