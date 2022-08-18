@@ -6,18 +6,25 @@ const deleteImage = require('../helpers/cloudinary2')
 const productoCtrl = {}
 const Producto = require('../models/productos')
 
-//Obtener todos los productos
+//Obtener productos de un vendedor 
 productoCtrl.getProductos = async (req, res) => {
+    console.log(req.params)
+    const producto = await Producto.find({usuario: req.params.id})
+    res.json(producto)
+}
+
+//Obtener todos los productos
+/* productoCtrl.getProductos = async (req, res) => {
     const productos = await Producto.find();
     res.json(productos);
-}
+} */
 
 //Crear un producto nuevo
 productoCtrl.crearProducto = async (req, res) => {
     
 
     try {
-        const {nombre, categoria, stock, precio,descripcion} =  req.body
+        const {nombre, categoria, stock, precio,descripcion, usuario} =  req.body
         console.log(req.body)
 
         const nuevoProducto = new Producto({
@@ -25,7 +32,8 @@ productoCtrl.crearProducto = async (req, res) => {
             categoria, 
             stock, 
             precio, 
-            descripcion
+            descripcion,
+            usuario
         })
 
         if(req.files?.image) {
