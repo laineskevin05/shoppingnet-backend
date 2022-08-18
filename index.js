@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
 const { connectDB } = require("./DB");
+const fileUpload = require("express-fileupload")
 
 // Crear el servidor de express
 const app = express();
@@ -17,6 +18,13 @@ app.use(express.static("public"));
 
 // Lectura y parseo del body
 app.use(express.json());
+
+app.use(
+  fileUpload({
+  useTempFiles: true,
+  tempFileDir: "./uploads",
+  })
+);
 
 // Rutas
 app.use("/api/auth", require("./routes/auth"));
