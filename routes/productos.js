@@ -7,7 +7,7 @@ const productoCtrl = require("../controllers/producto.controller");
 const fileUpload = require("express-fileupload");
 const { validarJWT } = require("../middlewares/validar-jwt");
 
-router.get("/inventario/:id", validarJWT, productoCtrl.getProductos);
+router.get("/inventario/:id", productoCtrl.getProductos);
 
 /* router.post('/', fileUpload({
     useTempFiles: true,
